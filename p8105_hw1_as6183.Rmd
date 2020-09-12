@@ -1,6 +1,6 @@
 ---
 title: "p8105_hw1_as6183"
-output: html_document
+output: github_document
 ---
 # Problem 1
 Creating data frame with 4 variables. num is a random standard normal distribution with 10 numbers, char is a character vector with a length of 10, fac is a factor with a length of 10 and 3 factor levels, and is_greater_0 is a logical vector which is True if num>0 and False when num<=0. 
