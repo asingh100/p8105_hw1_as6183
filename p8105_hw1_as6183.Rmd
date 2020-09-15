@@ -1,0 +1,43 @@
+---
+title: "p8105_hw1_as6183"
+output: github_document
+---
+# Homework 1 Solutions
+# Problem 1
+Creating data frame with 4 variables. num is a random standard normal distribution with 10 numbers, char is a character vector with a length of 10, fac is a factor with a length of 10 and 3 factor levels, and is_greater_0 is a logical vector which is True if num>0 and False when num<=0. 
+```{r}
+df = data.frame(
+                num = rnorm(10,0,1),
+                char = as.character(head(letters,10)),
+                fac = factor(c("dog","dog","dog","cat","cat","cat","cat","horse","horse","horse")))
+df$is_greater_0 = df$num>0
+mean(df$num)
+mean(df$is_greater_0)                
+mean(df$char)
+mean(df$fac)
+```
+Taking the mean of the random sample as well as the logical variable returns a result, however taking the mean of the character variable and the factor variable returns an NA.
+```{r eval=F}
+df$is_greater_0 = as.numeric(df$is_greater_0)
+df$char = as.numeric(df$char)
+df$fac = as.numeric(df$fac)
+```
+Converting the variables to a numeric converts the logical variable to a binary variable of 0 for F and 1 for T and the factor variable to 1,2, and 3 with each number representing each of the factors that were there previously. Converting the character variable to a numeric does not work and returns a vector of NA's because characters are cannot be represented numerically such as a binary T/F variable that can be represented with 0 and 1 or a categorical variable like a factor that can be respresented with a different number for each category. This process does show why taking the mean of the logical variable works as when you take the mean of a logical variable it just takes the mean of the binary representation of it which will give you an idea of how much of the sample is True and how much is False. For the factor variable it makes sense why we get an error because even though it can be converted into a numeric form, the numbers still represent distinct categories so taking the mean would give you no valuable information. For the character variable, the error makes sense when trying to take the mean since the variable cannot be converted into a numeric form.   
+```{r}
+df$is_greater_0 = as.numeric(df$is_greater_0)
+df$is_greater_0*df$num
+df$char = as.numeric(df$char)
+df$char*df$num
+df$fac = as.numeric(df$fac)
+df$fac*df$num
+```
+# Problem 2
+```{r}
+data("penguins",package = "palmerpenguins")
+```
+The penguins data set includes a wide variety of data on Palmer Archipelago Penguins such as `r colnames(penguins)` with _mm indicating the values are in millimeters for that variable and _g indicating that the values are in grams for that variable. The size of the data set is `r ncol(penguins)` columns and `r nrow(penguins)` rows. The mean flipper length of the penguins represented in this data set is `r mean(penguins$flipper_length_mm,na.rm=T)` mm.
+```{r}
+library(ggplot2)
+ggplot(penguins,aes(x=bill_length_mm,y=flipper_length_mm,color=species)) + geom_point(size=4)
+ggsave("Problem2.png")
+```
